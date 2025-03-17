@@ -1,0 +1,17 @@
+Feature,Importance
+Age,0.46772962845906824
+Gender_Male,0.06817997704328053
+Condition_Arthritis,0.028317255212453464
+Condition_Asthma,0.024905122344494445
+Condition_COVID-19,0.027360353604844047
+Condition_Cancer,0.02710596764321966
+Condition_Diabetes,0.024508703012517084
+Condition_Heart Disease,0.023472810766778957
+Condition_Hypertension,0.026367714917846737
+Trial Phase_Phase 2,0.037538317151464703
+Trial Phase_Phase 3,0.04430642461473136
+Trial Phase_Phase 4,0.04558641794823419
+Enrollment Status_Not yet recruiting,0.037154498533188064
+Enrollment Status_Ongoing,0.026773286809989253
+Enrollment Status_Withdrawn,0.030736011648138217
+Drug Response_Not Effective,0.059957510289751

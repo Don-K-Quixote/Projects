@@ -1,0 +1,45 @@
+# Virtual environment
+venv/
+myenv/
+.env
+*.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Logs and local environment files
+*.log
+*.sqlite3
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor files
+.vscode/
+*.sublime-workspace
+
+# Docker
+*.dockerfile
+docker-compose.override.yml
+*.env
+
+# Data files (optional — if datasets shouldn’t be pushed)
+*.csv
+*.xlsx
+*.json
+
+# Compiled Python files
+*.pyo
+*.pyc
+*.pyd
+
+# Ignore all hidden files and directories (optional)
+.*
+!/.gitignore

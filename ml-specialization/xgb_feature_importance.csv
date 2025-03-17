@@ -1,0 +1,17 @@
+Feature,Importance
+Age,0.076779835
+Gender_Male,0.054183092
+Condition_Arthritis,0.064186074
+Condition_Asthma,0.05797844
+Condition_COVID-19,0.061940778
+Condition_Cancer,0.06837339
+Condition_Diabetes,0.06180361
+Condition_Heart Disease,0.06195987
+Condition_Hypertension,0.056327336
+Trial Phase_Phase 2,0.060779143
+Trial Phase_Phase 3,0.063282214
+Trial Phase_Phase 4,0.061991002
+Enrollment Status_Not yet recruiting,0.06564998
+Enrollment Status_Ongoing,0.076494284
+Enrollment Status_Withdrawn,0.05658058
+Drug Response_Not Effective,0.051690426

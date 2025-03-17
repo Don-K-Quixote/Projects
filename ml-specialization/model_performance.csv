@@ -1,0 +1,3 @@
+Model,Accuracy
+Random Forest,0.8086666666666666
+XGBoost,0.8086666666666666
