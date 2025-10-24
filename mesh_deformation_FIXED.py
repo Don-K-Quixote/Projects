@@ -1,5 +1,5 @@
 """
-Q2: 3D Mesh Deformation - CORRECTED VERSION
+Q2: 3D Mesh Deformation - CORRECTED VERSION (Open3D)
 Implements Laplacian Deformation and ARAP (As-Rigid-As-Possible) Deformation
 
 This version fixes all critical bugs from the original implementation.
@@ -11,9 +11,10 @@ Changes:
 - Added file existence check (Bug #5)
 - Improved dense matrix conversion efficiency (Warning #1)
 - Added relative convergence criterion (Warning #2)
+- Replaced igl with open3d for mesh I/O
 """
 
-import igl
+import open3d as o3d
 import numpy as np
 from gpytoolbox import cotangent_laplacian
 import matplotlib.pyplot as plt
@@ -462,7 +463,13 @@ def main():
     if not os.path.exists(mesh_path):
         raise FileNotFoundError(f"Mesh file not found: {mesh_path}")
 
-    V, F = igl.read_triangle_mesh(mesh_path)
+    # Load mesh using Open3D
+    mesh = o3d.io.read_triangle_mesh(mesh_path)
+
+    # Extract vertices and faces as numpy arrays
+    V = np.asarray(mesh.vertices)
+    F = np.asarray(mesh.triangles)
+
     print(f"✓ Loaded mesh: {V.shape[0]} vertices, {F.shape[0]} faces")
     print(f"  Vertex coordinates range:")
     print(f"    X: [{V[:, 0].min():.4f}, {V[:, 0].max():.4f}]")

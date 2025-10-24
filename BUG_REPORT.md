@@ -3,6 +3,9 @@
 ## Summary
 This report identifies **5 critical bugs** and **2 warnings** in the mesh deformation implementation.
 
+## Update: Library Migration
+**Latest Change:** The fixed code now uses `open3d` instead of `igl` for mesh I/O operations. This provides better maintainability and additional features while maintaining the same functionality.
+
 ---
 
 ## Critical Bugs

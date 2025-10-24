@@ -1,5 +1,33 @@
 # Summary of Code Fixes
 
+## Library Update: igl → Open3D
+
+**Change:** Replaced `igl` library with `open3d` for mesh I/O operations.
+
+**Original:**
+```python
+import igl
+V, F = igl.read_triangle_mesh(mesh_path)
+```
+
+**Updated:**
+```python
+import open3d as o3d
+mesh = o3d.io.read_triangle_mesh(mesh_path)
+V = np.asarray(mesh.vertices)
+F = np.asarray(mesh.triangles)
+```
+
+**Benefits:**
+- More actively maintained library
+- Better documentation and community support
+- Additional mesh processing capabilities
+- Integrated visualization tools
+- Support for more file formats
+- GPU acceleration support
+
+---
+
 ## Critical Bugs Fixed
 
 ### Fix #1: Sparse Matrix Construction (Laplacian)
