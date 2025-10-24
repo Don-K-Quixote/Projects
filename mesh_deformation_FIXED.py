@@ -450,18 +450,68 @@ def plot_convergence(convergence_history):
 # MAIN EXECUTION (with file check)
 # ============================================================================
 
-def main():
+def main(mesh_path=None, output_dir=None):
+    """
+    Run the mesh deformation demo.
+
+    Args:
+        mesh_path: Path to mesh file. If None, will search for dino.off in common locations.
+        output_dir: Directory to save output images. If None, saves to current directory.
+    """
     print("="*70)
     print("3D MESH DEFORMATION: LAPLACIAN vs ARAP (FIXED VERSION)")
     print("="*70)
 
+    # Set up output directory
+    if output_dir is None:
+        # Try to use /mnt/user-data/outputs if it exists, otherwise use current directory
+        if os.path.exists("/mnt/user-data/outputs"):
+            output_dir = "/mnt/user-data/outputs"
+        else:
+            output_dir = "."  # Current directory
+
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    print(f"Output directory: {os.path.abspath(output_dir)}")
+
     # Step 1: Load mesh
     print("\n[STEP 1] Loading mesh...")
 
-    # FIX #5: Check if file exists
-    mesh_path = "/mnt/user-data/uploads/dino.off"
-    if not os.path.exists(mesh_path):
-        raise FileNotFoundError(f"Mesh file not found: {mesh_path}")
+    # FIX #5: Find mesh file in multiple locations
+    if mesh_path is None:
+        # Try multiple common locations
+        possible_paths = [
+            "dino.off",                              # Current directory
+            "./dino.off",                            # Explicit current directory
+            "data/dino.off",                         # Data subdirectory
+            "../dino.off",                           # Parent directory
+            "/mnt/user-data/uploads/dino.off",       # Original hardcoded path
+            os.path.join(os.getcwd(), "dino.off"),  # Absolute path to current dir
+        ]
+
+        mesh_path = None
+        for path in possible_paths:
+            if os.path.exists(path):
+                mesh_path = path
+                print(f"  Found mesh file: {mesh_path}")
+                break
+
+        if mesh_path is None:
+            error_msg = (
+                "Mesh file 'dino.off' not found in any of the following locations:\n"
+                + "\n".join(f"    - {path}" for path in possible_paths)
+                + "\n\nPlease either:\n"
+                + "  1. Place 'dino.off' in the current directory, or\n"
+                + "  2. Call main(mesh_path='path/to/your/mesh.off')"
+            )
+            raise FileNotFoundError(error_msg)
+    else:
+        # User provided a path
+        if not os.path.exists(mesh_path):
+            raise FileNotFoundError(
+                f"Mesh file not found: {mesh_path}\n"
+                f"Current directory: {os.getcwd()}"
+            )
 
     # Load mesh using Open3D
     mesh = o3d.io.read_triangle_mesh(mesh_path)
@@ -504,8 +554,9 @@ def main():
     fig1, _ = plot_mesh(V, F, "Original Mesh with Constraints",
                         anchors=anchors, handles=handles,
                         handle_targets=handle_targets)
-    plt.savefig('/mnt/user-data/outputs/Q2_original_mesh.png', dpi=150, bbox_inches='tight')
-    print("  ✓ Saved: Q2_original_mesh.png")
+    output_path = os.path.join(output_dir, 'Q2_original_mesh.png')
+    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    print(f"  ✓ Saved: {output_path}")
     plt.close()
 
     # Step 4: Laplacian deformation
@@ -519,8 +570,9 @@ def main():
     fig2, _ = plot_mesh(V_laplacian, F, "Laplacian Deformation Result",
                         anchors=anchors, handles=handles,
                         handle_targets=handle_targets, color='lightcoral')
-    plt.savefig('/mnt/user-data/outputs/Q2_laplacian_result.png', dpi=150, bbox_inches='tight')
-    print("  ✓ Saved: Q2_laplacian_result.png")
+    output_path = os.path.join(output_dir, 'Q2_laplacian_result.png')
+    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    print(f"  ✓ Saved: {output_path}")
     plt.close()
 
     # Step 5: ARAP deformation
@@ -535,23 +587,26 @@ def main():
     fig3, _ = plot_mesh(V_arap, F, "ARAP Deformation Result",
                         anchors=anchors, handles=handles,
                         handle_targets=handle_targets, color='lightgreen')
-    plt.savefig('/mnt/user-data/outputs/Q2_arap_result.png', dpi=150, bbox_inches='tight')
-    print("  ✓ Saved: Q2_arap_result.png")
+    output_path = os.path.join(output_dir, 'Q2_arap_result.png')
+    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    print(f"  ✓ Saved: {output_path}")
     plt.close()
 
     # Step 6: Plot convergence
     print("\n[STEP 6] Plotting convergence history...")
     fig4 = plot_convergence(convergence)
-    plt.savefig('/mnt/user-data/outputs/Q2_convergence.png', dpi=150, bbox_inches='tight')
-    print("  ✓ Saved: Q2_convergence.png")
+    output_path = os.path.join(output_dir, 'Q2_convergence.png')
+    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    print(f"  ✓ Saved: {output_path}")
     plt.close()
 
     # Step 7: Side-by-side comparison
     print("\n[STEP 7] Creating comparison visualization...")
     fig5 = visualize_comparison(V, V_laplacian, V_arap, F,
                                anchors, handles, handle_targets)
-    plt.savefig('/mnt/user-data/outputs/Q2_comparison.png', dpi=150, bbox_inches='tight')
-    print("  ✓ Saved: Q2_comparison.png")
+    output_path = os.path.join(output_dir, 'Q2_comparison.png')
+    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    print(f"  ✓ Saved: {output_path}")
     plt.close()
 
     # Step 8: Compute quality metrics
